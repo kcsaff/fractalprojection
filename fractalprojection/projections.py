@@ -34,4 +34,4 @@ class MercatorProjection(object):
 
     @classmethod
     def _map_latitude(cls, latitude):
-        return math.log(math.tan(math.pi/4 + math.radians(latitude)/2))
+        return math.log(math.tan(math.radians(90 + latitude)/2))
