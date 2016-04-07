@@ -71,7 +71,7 @@ class Reprojection(object):
             for coord in triangle:
                 mapped = self.projection.get(coord.to_geographic())
                 if mapped:
-                    point = int(self.size[0]*mapped[0]), int(self.size[1]*mapped[1])
+                    point = int(self.size[0]*mapped[0]) % self.size[0], int(self.size[1]*mapped[1]) % self.size[1]
                 else:
                     point = None
                 points.add(point)
