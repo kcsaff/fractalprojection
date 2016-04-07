@@ -4,6 +4,7 @@ from PIL import Image
 from fractalprojection.psysal import Reprojection, GreatTriangle
 from fractalprojection.projections import MercatorProjection
 from fractalprojection.geography import *
+from fractalprojection.platonic import TETRAHEDRON, OCTAHEDRON
 
 
 RESOURCE_PACKAGE = 'fractalprojection.resources'
@@ -13,27 +14,11 @@ def resource(resource_name):
     return pkgutil.get_data(RESOURCE_PACKAGE, resource_name)
 
 
-OCTAHEDRON = [
-    ((+1, 0, 0), (0, +1, 0), (0, 0, +1)),
-    ((0, +1, 0), (-1, 0, 0), (0, 0, +1)),
-    ((-1, 0, 0), (0, -1, 0), (0, 0, +1)),
-    ((0, -1, 0), (+1, 0, 0), (0, 0, +1)),
-    ((+1, 0, 0), (0, +1, 0), (0, 0, -1)),
-    ((0, +1, 0), (-1, 0, 0), (0, 0, -1)),
-    ((-1, 0, 0), (0, -1, 0), (0, 0, -1)),
-    ((0, -1, 0), (+1, 0, 0), (0, 0, -1)),
-]
 GREAT_OCTAHEDRON = [
     GreatTriangle.of(triangle)
     for triangle in OCTAHEDRON
 ]
 
-TETRAHEDRON = [
-    [((3**0.5)/3, 0, 0), (-(3**0.5)/6, 0.5, 0), (0, 0, (6**0.5)/3)],
-    [(-(3**0.5)/6, 0.5, 0), (-(3**0.5)/6, -0.5, 0), (0, 0, (6**0.5)/3)],
-    [(-(3**0.5)/6, -0.5, 0), ((3**0.5)/3, 0, 0), (0, 0, (6**0.5)/3)],
-    [((3**0.5)/3, 0, 0), (-(3**0.5)/6, 0.5, 0), (-(3**0.5)/6, -0.5, 0)],
-]
 GREAT_TETRAHEDRON = [
     GreatTriangle.of(triangle)
     for triangle in TETRAHEDRON
