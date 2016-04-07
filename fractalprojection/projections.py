@@ -2,20 +2,24 @@ import math
 
 
 class MercatorProjection(object):
-    def __init__(self, latitudes, longitudes=(0, 360)):
+    def __init__(self, latitudes, longitudes=(0, 360), bbox=(1, 1)):
         self.latitudes = latitudes
         self.longitudes = longitudes
 
         self.latitudes_mapped = tuple(self._map_latitude(lat) for lat in latitudes)
+
+        if len(bbox) == 2:
+            bbox = (0, 0) + bbox
+        self.bbox = bbox
 
     def get(self, coords, default=None):
         latitude, longitude = coords  # degrees
         if not (min(self.latitudes) <= latitude <= max(self.latitudes)):
             return default
 
-        while longitude <= min(self.longitudes):
+        while longitude < min(self.longitudes):
             longitude += 360
-        while longitude >= max(self.longitudes):
+        while longitude > max(self.longitudes):
             longitude -= 360
         if not (min(self.longitudes) <= longitude <= max(self.longitudes)):
             return default
@@ -24,7 +28,9 @@ class MercatorProjection(object):
         mapped_lat = self._map_latitude(latitude)
         lat_fraction = (mapped_lat - self.latitudes_mapped[0]) / (self.latitudes_mapped[-1] - self.latitudes_mapped[0])
 
-        return lat_fraction, long_fraction
+        lat_result = self.bbox[0] + (self.bbox[2] - self.bbox[0]) * lat_fraction
+        long_result = self.bbox[1] + (self.bbox[3] - self.bbox[1]) * long_fraction
+        return lat_result, long_result
 
     @classmethod
     def _map_latitude(cls, latitude):
